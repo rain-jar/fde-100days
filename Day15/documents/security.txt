@@ -1,0 +1,17 @@
+ACME ACCOUNT SECURITY POLICY
+
+Password Requirements
+
+All Acme accounts must use a password containing at least 12 characters. Passwords must contain at least one uppercase letter, one lowercase letter, one number, and one special character. Customers should not reuse passwords from other services. Acme employees will never ask customers to provide their password through email, chat, or telephone.
+
+Multi-Factor Authentication
+
+Multi-factor authentication (MFA) is available to all Acme customers and is strongly recommended. Enterprise accounts are required to enable MFA for all administrators. Enterprise customers may also enforce MFA for every user in their organization. Supported authentication methods include authenticator applications and approved hardware security keys.
+
+Compromised Accounts
+
+Customers who believe their account has been compromised should immediately reset their password and terminate all active sessions through the account security page. If the customer still has access, they should enable MFA if it is not already active. Customers who cannot access their account should contact Acme Security Support. Acme may temporarily lock an account when suspicious activity is detected while the Security team investigates.
+
+Data Handling
+
+Acme encrypts customer data while it is transmitted and while it is stored. Employees may access customer information only when required for their job responsibilities. Customers should never send passwords, authentication codes, or sensitive credentials through Acme support tickets. Suspected exposure of customer data must be reported to the Security team immediately.
