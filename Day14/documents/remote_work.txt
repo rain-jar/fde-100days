@@ -1,0 +1,21 @@
+ACME REMOTE WORK POLICY
+
+Domestic Remote Work
+
+Acme employees may work remotely within their country of employment when their role is designated as remote-eligible. Employees are responsible for maintaining a reliable internet connection and a work environment suitable for handling company information. Employees working remotely must follow the same security and confidentiality requirements that apply in an Acme office.
+
+International Remote Work
+
+Employees who wish to work temporarily from another country must receive approval before traveling. International remote work is generally permitted for a maximum of 30 calendar days during any rolling 12-month period. Longer arrangements require review by Human Resources, Legal, and the employee's department leadership because of potential tax, immigration, and employment-law requirements.
+
+Approval
+
+International remote-work requests should be submitted at least 30 days before the planned departure date. The request must include the destination country, travel dates, reason for the request, and confirmation from the employee's manager. Approval is not guaranteed. Acme may deny requests involving countries where the company faces legal, security, tax, or data-handling restrictions.
+
+Security Requirements
+
+Employees working remotely must use an Acme-managed device when accessing internal systems. Employees must use the company VPN when required and must follow Acme's multi-factor authentication requirements. Confidential company information should not be accessed through public or shared computers.
+
+Duration Limits
+
+Domestic remote work does not have a specific annual duration limit for employees whose positions are designated as remote-eligible. International remote work is normally limited to 30 calendar days per rolling 12-month period unless a formal exception is approved.

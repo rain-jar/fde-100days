@@ -1,0 +1,17 @@
+ACME ACCOUNT PLANS
+
+Standard Plan
+
+The Standard plan is intended for individuals and small teams. It supports up to 5 users and includes the core Acme application, email support, and 10 GB of shared storage. Standard customers can enable multi-factor authentication individually. Standard purchases have a 30-day refund window.
+
+Pro Plan
+
+The Pro plan supports teams of up to 50 users. It includes all Standard features plus advanced reporting, integrations, priority email support, and 100 GB of shared storage. Pro administrators can manage user permissions from a centralized dashboard. Pro purchases have a 30-day refund window.
+
+Enterprise Plan
+
+The Enterprise plan is designed for larger organizations and does not have a fixed user limit. Enterprise customers receive all Pro features plus single sign-on (SSO), advanced security controls, audit logs, dedicated account management, and priority support.
+
+Multi-factor authentication is mandatory for Enterprise administrators. Enterprise organizations can enforce MFA across all users. Enterprise customers can also configure organization-wide security policies and review account activity through detailed audit logs.
+
+Enterprise customers receive a 60-day refund window instead of the standard 30-day window. Enterprise contracts may include additional negotiated terms. When a negotiated contract conflicts with the general Acme policy, the terms of the signed Enterprise agreement take precedence.

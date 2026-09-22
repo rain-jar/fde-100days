@@ -1,0 +1,17 @@
+ACME REFUND POLICY
+
+Refund Eligibility
+
+Customers may request a refund for eligible purchases made directly through Acme. To qualify, the customer must provide the email address associated with the account and the original transaction ID. Refunds are issued to the original payment method. Purchases made through third-party marketplaces or resellers must be refunded through the original seller.
+
+Refund Window
+
+Standard and Pro customers may request a full refund within 30 calendar days of the original purchase date. Enterprise customers have an extended refund window of 60 calendar days. Requests submitted after the applicable refund window are normally not eligible for a refund.
+
+Exceptions
+
+Refunds are not available for promotional credits, gift cards, or services that have already been fully consumed. Acme may make exceptions when a customer was charged because of a confirmed technical error, duplicate transaction, or billing mistake. In these situations, the normal refund window may be waived. Refund requests involving suspected fraud are transferred to the Security team for investigation before any refund is issued.
+
+Processing Time
+
+Approved refunds are submitted to the customer's original payment method within 2 business days. Most customers receive the funds within 5–7 business days after approval, although the exact timing depends on the customer's bank or payment provider. Customers who have not received an approved refund after 10 business days should contact Acme Support with their refund confirmation number.
