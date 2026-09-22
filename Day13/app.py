@@ -4,6 +4,9 @@ import json
 import numpy as np
 
 client = OpenAI()
+
+###RETRIEVAL PIPELINE
+
 #Read the json embeddings data
 with open("knowledge_base.json","r") as file:
     knowledge_base = json.load(file)
