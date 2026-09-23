@@ -1,6 +1,7 @@
 from openai import OpenAI
 from evals import answer_query
 from pydantic import BaseModel
+import json
 
 client = OpenAI()
 
@@ -34,20 +35,43 @@ case = {
     "should_abstain" : True
 }
 
-result = judge_answer(
-    "5–7 business days after approval.",
-    "Approved refunds generally arrive within five to seven business days."
-)
-print(result)
+#Reading Evals from a Dataset Json file
+with open("eval_dataset.json","r") as file:
+    eval_dataset = json.load(file)
 
-#actual = answer_query("How many days of maternity leave do Acme employees receive?")
-#print(actual)
+total = len(eval_dataset)
+passedevalcases = 0
 
-# source_pass = all(
-#     source in actual["sources"]
-#     for source in case["expected_sources"]
-# )
-# print("SOURCE_PASS: ",source_pass)
+for eval in eval_dataset : 
+    actual = answer_query(eval["question"])
 
-# abstention_pass = (actual["abstained"] == case["should_abstain"])
-# print("ABSTENTION_PASS: ",abstention_pass)
+    #print("Eval ID: ", eval["id"])
+
+    source_pass = all(
+        source in actual["sources"]
+        for source in eval["expected_sources"]
+    )
+    #print("SOURCE_PASS: ",source_pass)
+
+    abstention_pass = (actual["abstained"] == eval["should_abstain"])
+    #print("ABSTENTION_PASS: ",abstention_pass)
+
+    correctness_pass = judge_answer(eval["expected_answer"], actual["answer"])
+    #print("CORRECTNESS PASS: ", correctness_pass.passed)
+
+    case_pass = (source_pass and abstention_pass and correctness_pass.passed)
+    #print("CASE PASS: ", case_pass)
+
+    if case_pass:
+        passedevalcases += 1
+    if not case_pass:
+        print("CASE FAILED: ", eval["id"])
+        print("Failed due to Source Pass being ", source_pass, " Abstention pass being ", abstention_pass, " and Correctness being ", correctness_pass.reason)
+
+
+passrate = passedevalcases/total
+print("Total: ", passedevalcases,"/", total)
+print("Passrate: ", passrate)
+
+
+

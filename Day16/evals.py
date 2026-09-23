@@ -131,9 +131,9 @@ def answer_query(query):
 with open("eval_dataset.json","r") as file:
     eval_dataset = json.load(file)
 
-print(len(eval_dataset))
-actual = answer_query("How many days of maternity leave do Acme employees receive?")
-print(actual)
+#print(len(eval_dataset))
+#actual = answer_query("How many days of maternity leave do Acme employees receive?")
+#print(actual)
 
 # resultbase = []
 # for eval in eval_dataset:
