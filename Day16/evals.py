@@ -108,7 +108,7 @@ def answer_query(query):
         text_format=AnswerResult
     )
 
-    print(response.output_parsed)
+    #print(response.output_parsed)
 
 
     sources = []
