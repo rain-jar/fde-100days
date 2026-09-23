@@ -1,0 +1,122 @@
+[
+    {
+        "id" : "simple-01",
+        "category" : "simple_lookup",
+        "question" : "How long do approved refunds typically take to arrive?",
+        "expected_sources" : ["refunds.txt"],
+        "expected_answer" : "5–7 business days after approval.",
+        "should_abstain" : false
+    },
+    {
+        "id" : "simple-02",
+        "category" : "simple_lookup",
+        "question" : "What authentication method is required when employees access internal systems remotely?",
+        "expected_sources" :["remote_work.txt"],
+        "expected_answer" : "Multi-factor authentication (MFA) is required.",
+        "should_abstain" : false
+    },
+    {
+        "id" : "simple-03",
+        "category" : "simple_lookup",
+        "question" : "How many consecutive days may employees work internationally?",
+        "expected_sources" : ["remote_work.txt"],
+        "expected_answer" : "International remote work is generally permitted for a maximum of 30 calendar days during any rolling 12-month period.",
+        "should_abstain" : false
+    },
+    {
+        "id" : "simple-04",
+        "category" : "simple_lookup",
+        "question" : "What is the refund request window for Enterprise customers?",
+        "expected_sources" : ["refunds.txt"],
+        "expected_answer" : "60 calendar days.",
+        "should_abstain" : false
+    },
+    {
+        "id": "paraphrase-01",
+        "category": "paraphrase",
+        "question": "If I'm logging into company systems from home, do I need to verify my identity in more than one way?",
+        "expected_sources": ["remote_work.txt"],
+        "expected_answer": "Employees working remotely must follow Acme's multi-factor authentication requirements.",
+        "should_abstain": false
+    },
+    {
+        "id": "paraphrase-02",
+        "category": "paraphrase",
+        "question": "I bought Enterprise 45 days ago. Is it too late to ask for my money back?",
+        "expected_sources": ["refunds.txt"],
+        "expected_answer": "No. Enterprise customers have a 60-calendar-day refund window, so 45 days is within the window.",
+        "should_abstain": false
+    },
+    {
+        "id": "paraphrase-03",
+        "category": "paraphrase",
+        "question": "Could I do my job from another country for three weeks?",
+        "expected_sources": ["remote_work.txt"],
+        "expected_answer": "International remote work is generally permitted for up to 30 calendar days per rolling 12-month period, but prior approval is required.",
+        "should_abstain": false
+    },
+    {
+        "id": "crossdoc-01",
+        "category": "cross_document",
+        "question": "What MFA protections and options apply to Enterprise accounts?",
+        "expected_sources": ["security.txt", "account_plans.txt"],
+        "expected_answer": "Enterprise administrators are required to use MFA, Enterprise organizations can enforce MFA for all users, and supported authentication methods include authenticator applications and approved hardware security keys.",
+        "should_abstain": false
+    },
+    {
+        "id": "crossdoc-02",
+        "category": "cross_document",
+        "question": "What refund rules apply to an Enterprise customer, including the refund window and situations where the normal window may be waived?",
+        "expected_sources": ["account_plans.txt", "refunds.txt"],
+        "expected_answer": "Enterprise customers have a 60-day refund window. The normal refund window may be waived for confirmed technical errors, duplicate transactions, or billing mistakes. Signed Enterprise agreement terms take precedence if they conflict with the general policy.",
+        "should_abstain": false
+    },
+    {
+        "id": "crossdoc-03",
+        "category": "cross_document",
+        "question": "What security measures apply when an employee works remotely and handles customer information?",
+        "expected_sources": ["remote_work.txt", "security.txt"],
+        "expected_answer": "Remote employees must use an Acme-managed device when accessing internal systems, use the company VPN when required, follow MFA requirements, and avoid accessing confidential information through public or shared computers. Employees may access customer information only when required for their job responsibilities.",
+        "should_abstain": false
+    },
+    {
+        "id": "unsupported-01",
+        "category": "unsupported",
+        "question": "What is Acme's parental leave policy?",
+        "expected_sources": [],
+        "expected_answer": null,
+        "should_abstain": true
+    },
+    {
+        "id": "unsupported-02",
+        "category": "unsupported",
+        "question": "How many paid vacation days do Acme employees receive each year?",
+        "expected_sources": [],
+        "expected_answer": null,
+        "should_abstain": true
+    },
+    {
+        "id": "unsupported-03",
+        "category": "unsupported",
+        "question": "Does Acme provide employees with a home-office equipment allowance?",
+        "expected_sources": [],
+        "expected_answer": null,
+        "should_abstain": true
+    },
+    {
+        "id": "boundary-01",
+        "category": "boundary_confusing",
+        "question": "Can I permanently move to France and continue working remotely for Acme?",
+        "expected_sources": ["remote_work.txt"],
+        "expected_answer": "The policy does not establish whether permanent international relocation is allowed. It only states that temporary international remote work is generally limited to 30 calendar days per rolling 12-month period and that longer arrangements require additional review.",
+        "should_abstain": true
+    },
+    {
+        "id": "boundary-02",
+        "category": "boundary_confusing",
+        "question": "Does every Enterprise employee have to use MFA?",
+        "expected_sources": ["security.txt", "account_plans.txt"],
+        "expected_answer": "No general requirement for every Enterprise user is established. MFA is mandatory for Enterprise administrators, while Enterprise organizations can choose to enforce MFA across all users.",
+        "should_abstain": false
+    }
+]
