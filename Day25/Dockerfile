@@ -16,4 +16,7 @@ COPY . .
 
 #Execute these when a container starts from this image
 #Essentially - Whena a container starts from this image - start FastAPI server on port 8000
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+#CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+#Version needed for cloud deployment
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
