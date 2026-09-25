@@ -30,3 +30,4 @@ async def chat(request: ChatRequest):
         "trace_id": result["trace_id"]
     }
 
+
