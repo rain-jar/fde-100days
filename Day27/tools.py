@@ -37,18 +37,22 @@ SIMULATION_DB_FAILURE = False
 
 #PostgreSQL version
 def get_customer_plan(customer_name,trace_id):
-    with psycopg.connect(DATABASE_URL) as conn:
-        with conn.cursor() as cur:
-            cur.execute(
-                """
-                    SELECT plan FROM customers 
-                    WHERE name = %s
-                """,(customer_name,)
-            )
-    plan = cur.fetchone()
-    if plan is None:
-        return ("Database READ_ERROR: Customer does not exist")
-    return plan[0] #Because fetchone() returns a tuple like ('Enterprise',)
+    try:
+        with psycopg.connect(DATABASE_URL) as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                        SELECT plan FROM customers 
+                        WHERE name = %s
+                    """,(customer_name,)
+                )
+                plan = cur.fetchone()
+                if plan is None:
+                    return ("Database READ_ERROR: Customer does not exist")
+                return plan[0] #Because fetchone() returns a tuple like ('Enterprise',)
+    
+    except psycopg.OperationalError:
+        return("Database READ_ERROR: Customer database unavailable")
 
 
 def get_customer_details(customer_name,trace_id):
