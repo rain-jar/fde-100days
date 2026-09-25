@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+openai
+pydantic
+requests
+numpy
+psycopg[binary]==3.3.6
+python-dotenv
+
