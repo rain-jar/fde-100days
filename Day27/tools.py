@@ -45,10 +45,10 @@ def get_customer_plan(customer_name,trace_id):
                     WHERE name = %s
                 """,(customer_name,)
             )
-            plan = cur.fetchone()
-            if plan is None:
-                return ("Database READ_ERROR: Customer does not exist")
-            return plan[0] #Because fetchone() returns a tuple like ('Enterprise',)
+    plan = cur.fetchone()
+    if plan is None:
+        return ("Database READ_ERROR: Customer does not exist")
+    return plan[0] #Because fetchone() returns a tuple like ('Enterprise',)
 
 
 def get_customer_details(customer_name,trace_id):
