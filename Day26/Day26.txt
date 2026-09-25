@@ -1,0 +1,2 @@
+For this day - all we did was deploy the Day25 Docker containerized FastAPI Agent server 
+to a Cloud Machine using Render
