@@ -236,7 +236,7 @@ def run_agent(response, trace_id):
         #Post-tools LLM call
         ptllmcall_timer = time.perf_counter()
         response = client.responses.create(
-            model = "gpt-5.4-nano",
+            model = "gpt-5.6",
             previous_response_id=response.id, #for conversational continuity with the LLM
             input = tool_outputs, #pass the tool outputs
             tools = tools, #pass the list of tools to the LLM
@@ -270,7 +270,7 @@ def process_request(user_question):
         """
   
     response = client.responses.create(
-        model="gpt-5.4-nano",
+        model="gpt-5.6",
         instructions=AGENT_INSTRUCTIONS,
         input =user_question,
         tools=tools,   
@@ -309,7 +309,7 @@ if __name__ == "__main__" :
         logger.info(f"{trace_id} : REQUEST STARTED")
         if not response:
             response = client.responses.create(
-                model="gpt-5.4-nano",
+                model="gpt-5.6",
                 instructions=AGENT_INSTRUCTIONS,
                 input =user_question,
                 tools=tools,   
@@ -337,3 +337,4 @@ if __name__ == "__main__" :
             logger.info(f"{trace_id}: REQUEST COMPLETED")
             duration = time.perf_counter() - request_start
             logger.info(f"{trace_id}TOTAL_LATENCY : {duration:.4f} seconds")
+
