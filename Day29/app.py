@@ -338,3 +338,4 @@ if __name__ == "__main__" :
             duration = time.perf_counter() - request_start
             logger.info(f"{trace_id}TOTAL_LATENCY : {duration:.4f} seconds")
 
+
