@@ -21,7 +21,8 @@ connection2 = sqlite3.connect("tickets.db")
 cursor2 = connection2.cursor()
 
 
-SIMULATION_DB_FAILURE = False
+#SIMULATION_DB_FAILURE = False
+SIMULATION_DB_FAILURE = os.getenv("SIMULATION_DB_FAILURE","false").lower() == "true"
 # #SQLITE version
 # def get_customer_plan(customer_name,trace_id):
 #     cursor.execute(

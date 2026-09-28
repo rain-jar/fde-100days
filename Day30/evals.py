@@ -12,6 +12,10 @@ class EvalResult(BaseModel):
     passed : bool
     reason : str
 
+class ForbiddenClaimsResult(BaseModel):
+    contains_forbidden_claims: bool
+    reason: str
+
 class AbstentionResult(BaseModel):
     abstained : bool
     reason : str
@@ -52,7 +56,7 @@ def judge_forbidden_claims(actual_answer, forbidden_claims):
                         """
                 }
             ],
-            text_format=EvalResult
+            text_format=ForbiddenClaimsResult
         )
     return response.output_parsed
 
@@ -88,11 +92,12 @@ passedevals = 0
 
 for eval_case in eval_dataset:
 
-    tool_module.SIMULATE_DB_FAILURE = eval_case.get(
+    tool_module.SIMULATION_DB_FAILURE = eval_case.get(
         "simulate_db_failure",
         False
     )
-    result = process_request(eval_case["question"])
+    result = process_request(eval_case["question"],eval_case.get("user_id","USER-101"))
+    result = result["response"]
     tool_module.SIMULATION_DB_FAILURE = False
 
     #Expected Tools Check
@@ -111,11 +116,12 @@ for eval_case in eval_dataset:
 
     #Forbidden claims check
     if eval_case.get("forbidden_claims"):
-        forbidden_claims_pass = judge_forbidden_claims(
+        forbidden_claims_result = judge_forbidden_claims(
             result["answer"],
             eval_case["forbidden_claims"]
         )
-        print("FORBIDDEN_CLAIMS: ",tool_pass)
+        forbidden_claims_pass = not forbidden_claims_result.contains_forbidden_claims
+        print("FORBIDDEN_CLAIMS: ",forbidden_claims_pass)
     else:
         forbidden_claims_pass = True
 
@@ -135,8 +141,9 @@ for eval_case in eval_dataset:
 
     #Expected answer correctness check
     if eval_case.get("expected_facts"):
-        correctness_pass = judge_answer(eval_case["expected_facts"], result["answer"])
-        print("CORRECTNESS CHECK: ", correctness_pass.passed)
+        correctness_result = judge_answer(eval_case["expected_facts"], result["answer"])
+        correctness_pass = correctness_result.passed
+        print("CORRECTNESS CHECK: ", correctness_pass)
     else:
         correctness_pass = True
 
