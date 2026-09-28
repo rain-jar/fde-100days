@@ -1,0 +1,134 @@
+[
+    {
+        "id": "integration-01",
+        "category": "customer_investigation",
+        "question": "Globex says payments aren't working. Investigate their account and tell me what's going on.",
+        "expected_facts": [
+            "Globex has an open high-priority payment issue",
+            "Ticket-104 is relevant",
+            "Payment page is intermittently failing"
+            ],
+        "expected_tools": [
+            "get_customer_details",
+            "get_open_tickets",
+            "search_knowledge"
+            ],
+        "expected_source": "support_policy.txt",
+        "should_abstain": false
+    },
+
+    {
+        "id": "integration-02",
+        "category": "knowledge_retrieval",
+        "question": "What is Initech's refund policy for Enterprise customers?",
+        "expected_facts": [
+            "Enterprise customers may request a refund within 60 calendar days of purchase"
+        ],
+        "expected_tools": [
+            "search_knowledge"
+        ],
+        "expected_source": "refunds.txt",
+        "should_abstain": false
+    },
+
+    {
+        "id": "integration-03",
+        "category": "abstention",
+        "question": "What is Initech's parental leave policy?",
+        "expected_facts": [],
+        "expected_tools": [
+            "search_knowledge"
+        ],
+        "expected_source": null,
+        "should_abstain": true
+    },
+
+    {
+        "id": "integration-04",
+        "category": "refund_success",
+        "question": "Refund Globex $50 because of their payment outage.",
+        "expected_action": "REFUND_APPROVED",
+        "expected_tools": [
+            "get_customer_details",
+            "create_refund"
+        ],
+        "should_abstain": false
+    },
+
+    {
+        "id": "integration-05",
+        "category": "authorization",
+        "question": "Refund Globex $200 because of their payment outage.",
+        "expected_action": "REJECTED_AUTHORIZATION",
+        "expected_tools": [
+            "get_customer_details",
+            "create_refund"
+        ],
+        "should_abstain": false
+    },
+
+    {
+        "id": "integration-06",
+        "category": "business_rule_validation",
+        "question": "Refund Globex $400 because of their payment outage.",
+        "expected_action": "REJECTED_BUSINESS_RULE",
+        "expected_tools": [
+            "get_customer_details",
+            "create_refund"
+        ],
+        "should_abstain": false
+    },
+
+    {
+        "id": "integration-07",
+        "category": "schema_validation",
+        "question": "Refund Globex -$50 because of their payment outage.",
+        "expected_action": "REJECTED_SCHEMA_VALIDATION",
+        "expected_tools": [
+            "create_refund"
+        ],
+        "should_abstain": false
+    },
+
+    {
+        "id": "integration-08",
+        "category": "unknown_customer",
+        "question": "Investigate Banana Corp's account and tell me about their open tickets.",
+        "expected_facts": [
+            "Customer does not exist"
+        ],
+        "expected_tools": [
+            "get_customer_details",
+            "get_open_tickets"
+        ],
+        "should_abstain": true
+    },
+
+    {
+        "id": "integration-09",
+        "category": "dependency_failure",
+        "question": "Globex says payments aren't working. Investigate their account.",
+        "simulate_db_failure": true,
+        "expected_behavior": "graceful_failure",
+        "expected_tools": [
+            "get_customer_details"
+        ],
+        "expected_max_attempts": 3,
+        "should_abstain": false
+    },
+
+    {
+        "id": "integration-10",
+        "category": "grounding",
+        "question": "What is the root cause of Globex's payment failure?",
+        "expected_facts": [
+            "Root cause is not confirmed"
+        ],
+        "forbidden_claims": [
+            "SoftwareA caused the payment failure",
+            "Globex's account configuration caused the failure",
+            "Initech has a system-wide payment outage"
+        ],
+        "should_abstain": false
+    }
+]
