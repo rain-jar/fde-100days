@@ -164,12 +164,14 @@ function_map = {
     "get_customer" : get_customer
 }
 
+#State class to hold the investigation state
 class InvestigationState(BaseModel):
     customer_name: str
     customer_details: dict | None = None
     tickets: list | None = None
     policies: list | None = None
     analysis: str | None = None
+    requires_human_confirmation: bool = False
     status: str = "in_progress"
     steps: int = 0
 
@@ -234,6 +236,11 @@ def retrieve_policies(state, trace_id, user_id):
 
     return state
 
+#Define LLM's output format for analysis to include human confirmation
+class InvestigationAnalysis(BaseModel):
+    analysis: str
+    requires_human_confirmation: bool
+
 def analyze_customer(state,trace_id,user_id):
     #Perform analysis using an LLM based on the current state
     analysis_input = {
@@ -243,17 +250,24 @@ def analyze_customer(state,trace_id,user_id):
     }
 
     #Call the LLM to analyze the information and provide recommendations
-    analysis_result = client.responses.create(
+    analysis_result = client.responses.parse(
         model="gpt-5.6",
         instructions="""Analyze the customer information, open tickets, and relevant
         policies. Provide a concise assessment of the situation and
         recommend an appropriate action.
 
+        Set requires_human_confirmation to true if the recommended action
+        would perform a consequential action, such as issuing a refund or
+        modifying customer data.
+
         Base your analysis only on the provided information.""",
-        input=json.dumps(analysis_input)
+        input=json.dumps(analysis_input),
+        text_format=InvestigationAnalysis
     )
 
-    state.analysis = analysis_result.output_text
+    result = analysis_result.output_parsed 
+    state.analysis = result.analysis
+    state.requires_human_confirmation = result.requires_human_confirmation
 
     #increment state.steps
     state.steps += 1
@@ -297,6 +311,11 @@ def run_investigation(customer_name, trace_id, user_id):
 
     #Perform analysis
     state = analyze_customer(state, trace_id, user_id)
+
+    #Check if human confirmation is required
+    if state.requires_human_confirmation:
+        state.status = "awaiting_confirmation"
+        return state
 
     state.status = "completed"
 
