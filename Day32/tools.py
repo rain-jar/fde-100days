@@ -56,6 +56,14 @@ USERS = {
     }
 }
 
+purchase_details = {
+    "Acme": {
+        "purchase_amount": 5000
+    },
+    "Globex": {
+        "purchase_amount": 8000
+    }
+}
 
 def isauthorized(user_id,customer_name):
     user = USERS.get(user_id)
@@ -306,15 +314,35 @@ def create_refund(customer_name,amount,trace_id,user_id):
         )
     except ValidationError as e:
         logger.warning(f"{trace_id} Tool result : REJECTED_SCHEMA_VALIDATION")
-        return("REFUND_REJECTED : Invalid request input")
+        return{
+            "status": "REJECTED",
+            "error": "INVALID_INPUT"
+        }
+
+
 
     #Business Logic Validation Check
     logging.info(f"{trace_id}: VALIDATION : STARTED")
-    purchase_details = get_customer_details(customer_name,trace_id)
-    if result.amount > purchase_details["purchase_amount"]:
+    #purchase_details = get_customer_details(customer_name,trace_id)
+    purchase_info = purchase_details.get(customer_name)
+
+    #Condition for an unknown customer
+    if purchase_info is None:
         logger.warning(f"{trace_id} Tool result : REJECTED_BUSINESS_RULE")
-        return(("REJECTED_BUSINESS_RULE: Requested amount exceeds original purchase amount."))
+        return{
+            "status": "REJECTED",
+            "error": "CUSTOMER_NOT_FOUND"
+        }
+    
+    if result.amount > purchase_info["purchase_amount"]:
+        logger.warning(f"{trace_id} Tool result : REJECTED_BUSINESS_RULE")
+        return{
+            "status": "REJECTED",
+            "error": "AMOUNT_EXCEEDS_PURCHASE"
+        }
+    
     logging.info(f"{trace_id}: VALIDATION : PASSED")
+
 
     #Authorization Check
     logging.info(f"{trace_id}: AUTHORIZATION : {result.user_role}")
@@ -322,12 +350,18 @@ def create_refund(customer_name,amount,trace_id,user_id):
     if result.amount > authorization_limit:
         logging.info(f"{trace_id}: AUTHORIZATION : FAILED")
         logger.warning(f"{trace_id} Tool result : REJECTED_AUTHORIZATION")
-        return(f"REJECTED_AUTHORIZATION : Refund amount can't be authorized by {result.user_role}. It is above the role limit")
+        return{
+            "status": "REJECTED",
+            "error": "NOT_AUTHORIZED"
+        }
 
     logger.info(f"{trace_id} : Tool result : REFUND_APPROVED")
     # duration = time.perf_counter() - start
     #logger.info(f"{trace_id} : Refund was processed in {duration:.4f}secs")
-    return("REFUND_APPROVED : Refund will be processed")
+    return{
+        "status": "APPROVED",
+        "error": None
+    }
 
 # result = create_refund("Globex", "-50", "manager")
 # #print(result)

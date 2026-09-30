@@ -76,21 +76,21 @@ def search_knowledge(user_question, trace_id,user_id):
 
 #Tools List for the Agent/LLM
 tools = [
-    {
-        "type" : "function",
-        "name" : "get_customer_plan",
-        "description" : "Call to get the current plan for a customer",
-        "parameters" : {
-            "type" : "object",
-            "properties" : {
-                "customer_name" : {
-                    "type" : "string",
-                    "description" : "this is the name of the customer"
-                },
-            },
-            "required" : ["customer_name"]
-        }
-    },
+    # {
+    #     "type" : "function",
+    #     "name" : "get_customer_plan",
+    #     "description" : "Call to get the current plan for a customer",
+    #     "parameters" : {
+    #         "type" : "object",
+    #         "properties" : {
+    #             "customer_name" : {
+    #                 "type" : "string",
+    #                 "description" : "this is the name of the customer"
+    #             },
+    #         },
+    #         "required" : ["customer_name"]
+    #     }
+    # },
     {
         "type" : "function",
         "name" : "get_customer_details",
@@ -147,25 +147,30 @@ tools = [
             "required" : ["user_question"]
         }
     },
-    # {
-    #     "type" : "function",
-    #     "name" : "create_refund",
-    #     "description" : "Call to process a refund based on a customer request",
-    #     "parameters" : {
-    #         "type" : "object",
-    #         "properties" : {
-    #             "customer_name" : {
-    #                 "type" : "string",
-    #                 "description" : "name of the customer"
-    #             },
-    #             "amount" : {
-    #                 "type" : "number",
-    #                 "description" : "request refund amount"
-    #             }
-    #         },
-    #         "required" : ["customer_name", "amount"]
-    #     }
-    # },
+    {
+        "type" : "function",
+        "name" : "create_refund",
+        "description" : """Call to process a refund based
+                        Process a refund for a customer based on their name and the requested refund amount.
+                        Call this tool only when the user's question requires a refund action for a customer.
+                        Do not use it for customer account information, open support tickets, or company policies.
+                        Identify the customer using their customer name and specify the refund amount requested by the customer. 
+                        """,
+        "parameters" : {
+            "type" : "object",
+            "properties" : {
+                "customer_name" : {
+                    "type" : "string",
+                    "description" : "Exact customer name for whom you want to process the refund"
+                },
+                "amount" : {
+                    "type" : "number",
+                    "description" : "Refund amount requested in dollars. Must be greater than 0 and no more than $10,000."
+                }
+            },
+            "required" : ["customer_name", "amount"]
+        }
+    },
     # {
     #     "type": "function",
     #     "name": "get_external_user",
@@ -268,9 +273,10 @@ def load_tickets(state, trace_id, user_id):
     return state
 
 def needs_policy_search(state):
+    print(state.tickets)
     #Determine if a policy search is needed based on the current state
     #Only do policy search if any tickets contains "payment"
-    if state.tickets and any("payment" in ticket["issue"].lower() for ticket in state.tickets):
+    if state.tickets and any("payment" in ticket["issue"].lower() for ticket in state.tickets["open_tickets"]):
         return True
     return False
 
@@ -500,12 +506,12 @@ def process_request(user_question,user_id):
     }
 
 #Test Orchestration
-trace_id = str(uuid.uuid4())[:8]
-user_id = "USER-102"
-state = run_investigation("Globex", trace_id, user_id)
+# trace_id = str(uuid.uuid4())[:8]
+# user_id = "USER-102"
+# state = run_investigation("Acme", trace_id, user_id)
 
-print("Investigation Result:")
-print(state.json(indent=4))
+# print("Investigation Result:")
+# print(state.json(indent=4))
 
 
 #LLM Conversation loop
@@ -560,3 +566,13 @@ print(state.json(indent=4))
 #             logger.info(f"{trace_id}TOTAL_LATENCY : {duration:.4f} seconds")
 
 
+user_id = "USER-102"
+user_question = input("You: ")
+result = process_request(user_question, user_id)
+
+print("Agent Response:")
+print({
+    "answer": result["response"]["answer"],
+    "trace_id": result["trace_id"]
+    }
+)
