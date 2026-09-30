@@ -1,0 +1,11 @@
+Issue Priority
+
+Critical service disruptions and payment failures that prevent customers from completing transactions should be classified as high-priority support issues.
+
+Payment Escalation
+
+High-priority payment failures should be escalated to the Payments Engineering team for investigation. Support should include the relevant customer account and ticket information when escalating the issue.
+
+Enterprise Support
+
+Enterprise customers receive 24/7 support for critical issues. Critical Enterprise incidents should be prioritized for investigation and escalation.
