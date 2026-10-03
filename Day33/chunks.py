@@ -127,3 +127,6 @@ current_chunks = chunk_embeddings(chunks)
 #Store the embeddings in a json file
 with open("current_knowledge_base.json","w") as file:
     json.dump(current_chunks,file)
+
+
+
