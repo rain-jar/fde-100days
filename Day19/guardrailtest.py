@@ -65,13 +65,3 @@ def validate_refund(customer_id,amount, user_role):
 
 result = validate_refund("CUST-101", "banana", "support_agent")
 print(result)
-
-
-
-
-
-
-
-
-
-
